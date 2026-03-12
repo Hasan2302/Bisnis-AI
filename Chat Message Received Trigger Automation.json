@@ -1,0 +1,116 @@
+{
+  "name": "Chat Message Received Trigger Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hai Pengguna! 👋\nNama saya Jarvis. Bagaimana saya bisa membantu anda?",
+        "availableInChat": true,
+        "options": {}
+      },
+      "id": "a4ed9a71-b47e-41f5-8e1b-f8e067680bac",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        304
+      ],
+      "webhookId": "34fdea19-df3b-413a-9d97-2dae18af98a1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah Agen AI yang membantu pengguna dalam pembelajaran nya"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        448,
+        304
+      ],
+      "id": "d283c6c8-fa7f-4483-aefb-cc8dd2435bc6",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        448,
+        464
+      ],
+      "id": "7d4117b0-dcad-468c-b95b-f63a136a0085",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "P02ODWqhHbOUnmH7",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        544,
+        464
+      ],
+      "id": "0ca837a0-d529-44c5-8693-c8149df0171f",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "9f31cc8a-617f-4bac-af4f-b15d473d9b62",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7d247a8d21c58343b87e97db4114c7fd742464f572262b483797876c33a10ce0"
+  },
+  "id": "pZYzYNjhgUao1vFn",
+  "tags": []
+}
