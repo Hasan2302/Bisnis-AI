@@ -1,0 +1,160 @@
+{
+  "name": "AI Chat w/ sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah Agen AI Asisten Pembelajaran. Tugasmu adalah menjawab pertanyaan pengguna mengenai daftar kursus pelatihan dan harganya. Gunakan Tool Google Sheets untuk mencari data yang akurat dari tabel pelatihan sebelum menjawab."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        496,
+        -128
+      ],
+      "id": "4fb63a3d-8606-4e95-b374-94b74ccf3451",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        432,
+        96
+      ],
+      "id": "94a7cbbb-a058-4929-ada0-6e3d6fcf9119",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "udcU8kK7C2z1m4s9",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        96
+      ],
+      "id": "a1accc35-87f1-46ea-b5cd-327d24249ab4",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hai Pengguna! 👋\nNama saya Jarvis. Bagaimana saya bisa membantu anda?",
+        "options": {}
+      },
+      "id": "7eeb1cab-aedd-49ce-b7ec-b948b84e7b38",
+      "name": "When Chat Message Received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        -128
+      ],
+      "webhookId": "6cd05a6d-a688-4b83-a04c-ae92be523603"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Gunakan tool ini untuk mengambil data materi kursus dan harga dari spreadsheet.",
+        "documentId": {
+          "__rl": true,
+          "value": "1ZGjIJUMTXrZy_igKX3Hmruu3GfatPVlQKPi9qtSoQUw",
+          "mode": "list",
+          "cachedResultName": "Tugas_3 - n8n 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZGjIJUMTXrZy_igKX3Hmruu3GfatPVlQKPi9qtSoQUw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZGjIJUMTXrZy_igKX3Hmruu3GfatPVlQKPi9qtSoQUw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        688,
+        80
+      ],
+      "id": "1d914933-8384-497d-a5d7-b088c9ab2607",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QEGCqqLHIHQ0YD56",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Chat Message Received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e05e2d3d-0b57-431b-b769-bbeee14b4a3b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "23ee1c6413c3946dde3a58353ac60b25251f096a318548adb6ef3bffeaea8b5c"
+  },
+  "id": "1q9ks7Lbq82AxR5N",
+  "tags": []
+}
